@@ -9,7 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Products {
-    Map<String, String> title = new HashMap<>();
+   private Map<String, String> title = new HashMap<>();
+
+    public Map<String, String> getTitle() {
+        return title;
+    }
 
     {
         title.put("булка", "еда");

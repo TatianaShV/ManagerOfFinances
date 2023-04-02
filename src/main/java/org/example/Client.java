@@ -1,11 +1,14 @@
 package org.example;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Client {
@@ -54,12 +57,12 @@ public class Client {
         try (Socket clientSocket = new Socket("localhost", 8989);
              PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
-            System.out.println("ВВедите покупку, дату и сумму через запятую");
+            System.out.println("Введите покупку, дату и сумму через запятую");
             String[] input = scanner.nextLine().split(",");
             setTitle(input[0]);
              setDate(input[1]);
             setSum(Integer.parseInt(input[2]));
-           // writer.println("ok");
+
             try (PrintWriter out = new PrintWriter("request.json")) {
                 Gson gson = new Gson();
                 JsonObject request = new JsonObject();
@@ -68,9 +71,16 @@ public class Client {
                 request.addProperty("sum", sum);
                 String clientrequestJson = gson.toJson(request);
                 out.println(clientrequestJson);
-                writer.print(out);}
-            // System.out.println(reader.readLine());
+                writer.println(clientrequestJson);}
+            String response = reader.readLine();
+            System.out.println(response);
 
+           /* public static Map<String, Integer> readAnswer(String response) throws IOException {
+                ObjectMapper mapper = new ObjectMapper();
+                Client client = mapper.readValue(response, Response.class);
+                Map<String, Integer> map = new HashMap<>();
+                map.put(client.getTitle(), client.getSum());
+                return map;*/
 
         }
     }

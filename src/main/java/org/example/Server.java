@@ -5,11 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Server {
     public static void main(String[] args) throws IOException {
         Products products = new Products();
         products.localTsv(new File("categories.tsv"));
+        Response response = new Response();
         try (ServerSocket serverSocket = new ServerSocket(8989);) {
             while (true) {
                 try (Socket socket = serverSocket.accept();
@@ -18,10 +21,12 @@ public class Server {
 
                     System.out.println("New connection accepted");
                     System.out.println("Подключен клиент " + socket.getPort());
-                    String f = in.readLine();
-                    System.out.println(f);
-                  /* File request = new File(in.readLine());
-                     readAnswer(request);*/
+                    String request = in.readLine();
+
+
+                    response.getMaxCategory(readAnswer(request));
+                    String responseForClient = response.saveJson(new File("response.json"));
+                    out.println(responseForClient);
                 }
             }
         } catch (IOException e) {
@@ -31,14 +36,12 @@ public class Server {
 
     }
 
-    static void readAnswer(File request) throws IOException {
+    public static Map<String, Integer> readAnswer(String request) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Client client = mapper.readValue(request, Client.class);
-        System.out.println(client.getDate());
-        System.out.println(client.getTitle());
-        System.out.println(client.getSum());
-
-
+        Map<String, Integer> map = new HashMap<>();
+        map.put(client.getTitle(), client.getSum());
+        return map;
     }
 
 }
