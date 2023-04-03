@@ -50,17 +50,14 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
-
         Scanner scanner = new Scanner(System.in);
-
-
         try (Socket clientSocket = new Socket("localhost", 8989);
              PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
             System.out.println("Введите покупку, дату и сумму через запятую");
             String[] input = scanner.nextLine().split(",");
             setTitle(input[0]);
-             setDate(input[1]);
+            setDate(input[1]);
             setSum(Integer.parseInt(input[2]));
 
             try (PrintWriter out = new PrintWriter("request.json")) {
@@ -71,16 +68,10 @@ public class Client {
                 request.addProperty("sum", sum);
                 String clientrequestJson = gson.toJson(request);
                 out.println(clientrequestJson);
-                writer.println(clientrequestJson);}
+                writer.println(clientrequestJson);
+            }
             String response = reader.readLine();
             System.out.println(response);
-
-           /* public static Map<String, Integer> readAnswer(String response) throws IOException {
-                ObjectMapper mapper = new ObjectMapper();
-                Client client = mapper.readValue(response, Response.class);
-                Map<String, Integer> map = new HashMap<>();
-                map.put(client.getTitle(), client.getSum());
-                return map;*/
 
         }
     }
