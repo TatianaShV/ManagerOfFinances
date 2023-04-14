@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Server {
+public class Main {
     public static void main(String[] args) throws IOException {
         Products products = new Products();
         products.localTsv(new File("categories.tsv"));
