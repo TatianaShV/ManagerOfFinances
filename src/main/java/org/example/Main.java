@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Products products = new Products();
         products.localTsv(new File("categories.tsv"));
-        Response response = new Response();
+        Response response = new Response(products);
         try (ServerSocket serverSocket = new ServerSocket(8989);) {
             while (true) {
                 try (Socket socket = serverSocket.accept();
