@@ -11,31 +11,42 @@ import java.util.stream.Stream;
 
 public class Response {
     String maxCategory;
-
     int maxSum = -1;
-    int[] sum = new int[5];
+    int[] sum;
+    Map<String, String> title;
+    List<String> category = new ArrayList<>();
 
-    String[] category = {"еда", "одежда", "быт", "финансы", "другое"};
+    public Response(Products products) {
+
+        this.title = products.getTitle();
+        for (String value : title.values()) {
+            if (!category.contains(value)) {
+                category.add(value);
+            }
+        }
+        category.add("другое");
+        this.sum = new int[category.size()];
+    }
 
     public void getMaxCategory(Map<String, Integer> request) {
-        Products products = new Products();
-        Map<String, String> title = products.getTitle();
+
         for (String key : request.keySet()) {
             if (title.containsKey(key)) {
-                for (int i = 0; i < category.length; i++) {
-                    if (category[i] == title.get(key)) {
+                for (int i = 0; i < category.size(); i++) {
+                    if (category.get(i) == title.get(key)) {
                         sum[i] += request.get(key);
                     }
                 }
-            } else if (!title.containsKey(key)) {
-                sum[4] += request.get(key);
+            } else {
+                sum[sum.length - 1] += request.get(key);
             }
         }
         System.out.println(Arrays.toString(sum));
-        for (int i = 0; i < category.length; i++) {
+        System.out.println(category);
+        for (int i = 0; i < category.size(); i++) {
             if (maxSum < sum[i]) {
                 maxSum = sum[i];
-                maxCategory = category[i];
+                maxCategory = category.get(i);
             }
         }
     }

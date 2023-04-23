@@ -15,7 +15,8 @@ public class ResponseTest extends TestCase {
 
     @BeforeEach
     public void beforeEach() {
-        response = new Response();
+        Products products = new Products();
+        response = new Response(products);
     }
 
     @Test
@@ -25,19 +26,30 @@ public class ResponseTest extends TestCase {
         map.put("булка", 100);
         map.put("шапка", 1000);
         response.getMaxCategory(map);
-        String actual = response.category[1];
+
+        String actual = "одежда";
         Assertions.assertEquals(response.maxCategory, actual);
+    }
+
+    @Test
+    public void getSum() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("акции", 500);
+        response.getMaxCategory(map);
+        map.put("акции", 600);
+        response.getMaxCategory(map);
+
+        Assertions.assertEquals(response.maxSum, 1100);
     }
 
     @Test
     public void getCategory() {
         Map<String, Integer> map = new HashMap<>();
-        map.put("акции", 500);
-        map.put("молоко", 100);
+        map.put("акции", 5000);
+        map.put("курица", 600);
         response.getMaxCategory(map);
-        Assertions.assertTrue(map.get("акции") == response.sum[3]);
-        Assertions.assertTrue(map.get("молоко") == response.sum[4]);
+        Assertions.assertTrue(response.sum[response.category.indexOf("финансы")] == map.get("акции"));
+        Assertions.assertTrue(response.sum[response.category.indexOf("еда")] == map.get("курица"));
     }
-
 
 }
