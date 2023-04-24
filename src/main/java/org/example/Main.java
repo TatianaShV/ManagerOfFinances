@@ -11,8 +11,9 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) throws IOException {
         Products products = new Products();
-        products.localTsv(new File("categories.tsv"));
-        Response response = new Response(products);
+        File tsvFile = new File("categories.tsv");
+        products.localTsv(tsvFile);
+        Response response = new Response(tsvFile);
         try (ServerSocket serverSocket = new ServerSocket(8989);) {
             while (true) {
                 try (Socket socket = serverSocket.accept();
@@ -22,8 +23,6 @@ public class Main {
                     System.out.println("New connection accepted");
                     System.out.println("Подключен клиент " + socket.getPort());
                     String request = in.readLine();
-
-
                     response.getMaxCategory(readAnswer(request));
                     String responseForClient = response.saveJson(new File("response.json"));
                     out.println(responseForClient);

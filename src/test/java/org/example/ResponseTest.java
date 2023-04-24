@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -14,9 +17,9 @@ public class ResponseTest extends TestCase {
     Response response;
 
     @BeforeEach
-    public void beforeEach() {
-        Products products = new Products();
-        response = new Response(products);
+    public void beforeEach() throws IOException {
+
+        response = new Response(new File("categories.tsv"));
     }
 
     @Test
