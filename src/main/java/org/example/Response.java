@@ -7,33 +7,36 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.stream.Stream;
+
 
 public class Response {
     String maxCategory;
     int maxSum = -1;
     int[] sum;
-    Map<String, String> title;
+    Map<String, String> title = new HashMap<>();
     List<String> category = new ArrayList<>();
 
-    public Response(Products products) {
-
-        this.title = products.getTitle();
-        for (String value : title.values()) {
+    public Response(File tsvFile) throws FileNotFoundException {
+        Scanner scanner = new Scanner(tsvFile);
+        while (scanner.hasNextLine()) {
+            String dataRow = scanner.nextLine();
+            String[] input = dataRow.split("\t");
+            this.title.put(input[0], input[1]);
+        }
+        for (String value : this.title.values()) {
             if (!category.contains(value)) {
-                category.add(value);
+                this.category.add(value);
             }
         }
-        category.add("другое");
+        this.category.add("другое");
         this.sum = new int[category.size()];
     }
 
     public void getMaxCategory(Map<String, Integer> request) {
-
         for (String key : request.keySet()) {
             if (title.containsKey(key)) {
                 for (int i = 0; i < category.size(); i++) {
-                    if (category.get(i) == title.get(key)) {
+                    if (category.get(i).equals(title.get(key))) {
                         sum[i] += request.get(key);
                     }
                 }

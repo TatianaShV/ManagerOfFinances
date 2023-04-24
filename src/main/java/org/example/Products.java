@@ -11,10 +11,6 @@ import java.util.Map;
 public class Products {
    private Map<String, String> title = new HashMap<>();
 
-    public Map<String, String> getTitle() {
-        return title;
-    }
-
     {
         title.put("булка", "еда");
         title.put("колбаса", "еда");
