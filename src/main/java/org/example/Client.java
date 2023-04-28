@@ -32,10 +32,6 @@ public class Client {
         return title;
     }
 
-    public String getDate() {
-        return date;
-    }
-
     public int getSum() {
         return sum;
     }
