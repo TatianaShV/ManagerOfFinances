@@ -24,7 +24,7 @@ public class Response {
             this.title.put(input[0], input[1]);
         }
         for (String value : this.title.values()) {
-            if (!category.contains(value)) {
+            if (!this.category.contains(value)) {
                 this.category.add(value);
             }
         }
@@ -33,6 +33,8 @@ public class Response {
     }
 
     public void getMaxCategory(Map<String, Integer> request) {
+
+
         for (String key : request.keySet()) {
             if (title.containsKey(key)) {
                 for (int i = 0; i < category.size(); i++) {

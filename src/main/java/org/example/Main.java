@@ -1,7 +1,12 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,10 +15,7 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Products products = new Products();
-        File tsvFile = new File("categories.tsv");
-        products.localTsv(tsvFile);
-        Response response = new Response(tsvFile);
+        Response response = new Response(new File("categories.tsv"));
         try (ServerSocket serverSocket = new ServerSocket(8989);) {
             while (true) {
                 try (Socket socket = serverSocket.accept();
