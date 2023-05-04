@@ -34,7 +34,6 @@ public class Response {
 
     public void getMaxCategory(Map<String, Integer> request) {
 
-
         for (String key : request.keySet()) {
             if (title.containsKey(key)) {
                 for (int i = 0; i < category.size(); i++) {
