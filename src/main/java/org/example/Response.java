@@ -45,8 +45,7 @@ public class Response {
                 sum[sum.length - 1] += request.get(key);
             }
         }
-        System.out.println(Arrays.toString(sum));
-        System.out.println(category);
+
         for (int i = 0; i < category.size(); i++) {
             if (maxSum < sum[i]) {
                 maxSum = sum[i];
